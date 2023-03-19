@@ -1,4 +1,4 @@
-# msigner: Open Source Ordinals Atomic Swap Bitcoin PSBT Signer Library
+# msigner: Ordinals Atomic Swap PSBT Signer
 
 msigner is an open source Bitcoin Ordinals Partially Signed Bitcoin Transactions (PSBT) signer library. It supports atomic swap of the inscription and provides a simple and secure way to structure Bitcoin transactions for marketplaces.
 
