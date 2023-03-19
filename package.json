@@ -1,0 +1,54 @@
+{
+  "name": "@magiceden-oss/msigner",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "description": "msigner is an open source Bitcoin Ordinals Partially Signed Bitcoin Transactions (PSBT) signer library, to support atomic swap with a lot of features. It provides a simple and secure way to structure Bitcoin transactions for marketplaces.",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "module": "dist/src/index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist node_modules/.cache tsconfig.tsbuildinfo",
+    "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}'",
+    "test": "ts-mocha test/**/*.spec.ts --exit --timeout 10000",
+    "precommit": "lint-staged",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "pnpm run lint --fix"
+  },
+  "dependencies": {
+    "@mempool/mempool.js": "^2.3.0",
+    "bitcoinjs-lib": "^6.1.0",
+    "rpc-bitcoin": "^2.0.0",
+    "tiny-secp256k1": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/expect": "^24",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18",
+    "chai": "^4.3.7",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-typescript": "^3.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1",
+    "mocha": "^10",
+    "prettier": "^2.1.2",
+    "ts-mocha": "^10",
+    "typescript": "^4.9.4"
+  },
+  "files": [
+    "dist"
+  ],
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "eslint src/**/*.{ts,js} --fix",
+      "prettier --write"
+    ]
+  }
+}
