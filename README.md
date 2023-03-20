@@ -17,6 +17,23 @@ msigner library comes packed with a variety of features that make it an ideal ch
 - Support different address to receive NFTs and Fund for both the seller and the buyer signer.
 - Support buyer and seller verification via fullnode’s mempool and the itemProvider.
 
+## How it works
+
+<img src="./docs/psbt.excalidraw.png" width="600">
+
+As a seller:
+- Sign a single PSBT using the `SIGHASH_SINGLE | ANYONECANPAY`
+
+As a buyer:
+- Sign a full PSBT using the `SIGHASH_DEFAULT` with all the information available to the buyer, except the seller signature (i.e. finalScriptWitness).
+
+As a platform combiner
+- Verify seller signature
+- Verify buyer signature
+- Merge seller and buyer signatures
+- Finalize and run mempool acceptance test
+- Broadcast the tx
+
 ## Development
 
 msigner is supposed to be used a dependency in any nodejs environment.

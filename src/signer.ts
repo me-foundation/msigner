@@ -110,6 +110,26 @@ export namespace SellerSigner {
       network,
     });
 
+    // Verify that the seller has signed the PSBT if Ordinal is held on a taproot and tapInternalKey is present
+    psbt.data.inputs.forEach((input) => {
+      if (input.tapInternalKey) {
+        const finalScriptWitness = input.finalScriptWitness;
+
+        if (finalScriptWitness && finalScriptWitness.length > 0) {
+          // Validate that the finalScriptWitness is not empty (and not just the initial value, without the tapKeySig)
+          if (finalScriptWitness.toString('hex') === '0141') {
+            throw new InvalidArgumentError(
+              `Invalid signature - no taproot signature present on the finalScriptWitness`,
+            );
+          }
+        } else {
+          throw new InvalidArgumentError(
+            `Invalid signature - no finalScriptWitness`,
+          );
+        }
+      }
+    });
+
     // verify signatures valid, so that the psbt is signed by the item owner
     if (
       (await FullnodeRPC.analyzepsbt(req.signedListingPSBTBase64))?.inputs[0]
@@ -147,6 +167,19 @@ export namespace SellerSigner {
     // verify that the output address is the same as the seller's receive address
     if (output.address !== req.sellerReceiveAddress) {
       throw new InvalidArgumentError(`Invalid sellerReceiveAddress`);
+    }
+
+    // verify that the seller address is a match
+    const sellerAddressFromPSBT = bitcoin.address.fromOutputScript(
+      bitcoin.Transaction.fromHex(
+        await FullnodeRPC.getrawtransaction(
+          generateTxidFromHash(psbt.txInputs[0].hash),
+        ),
+      ).outs[psbt.txInputs[0].index].script,
+      network,
+    );
+    if (ordItem?.owner !== sellerAddressFromPSBT) {
+      throw new InvalidArgumentError(`Invalid seller address`);
     }
   }
 }
