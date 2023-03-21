@@ -4,3 +4,4 @@ tsconfig.tsbuildinfo
 .env
 .turbo
 .vscode
+.DS_Store
