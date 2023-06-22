@@ -79,14 +79,6 @@ export interface IOrdAPIPostPSBTBuying {
   signedBuyingPSBTBase64: string;
 }
 
-export interface IOrdAPIPostPSBTBuying {
-  price: number;
-  tokenId: string;
-  buyerAddress: string;
-  buyerTokenReceiveAddress: string;
-  signedBuyingPSBTBase64: string;
-}
-
 export interface IOrdAPIPostPSBTListing {
   price: number;
   tokenId: string;
